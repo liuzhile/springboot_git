@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.lzl.mapper.MovieMapper">
+  <select id="queryByPage" resultMap="mc">
+  	<![CDATA[
+  		select m2.* from (select m1.*,rownum rn from (select * from (select m.*,c.* from m_movie m
+  		left join m_category c
+  		on m.f_cid=c.f_cateid) order by f_mid desc) m1
+  		where rownum <=#{curPage}*#{pageSize})m2
+  		where rn >(#{curPage}-1)*#{pageSize}
+  	]]>
+  </select>
+  <resultMap type="Movie" id="mc">
+  	<id column="f_mid" property="mid"/>
+  	<result column="f_mname" property="mname"/>
+  	<result column="f_director" property="director"/>
+  	<result column="f_describe" property="describe"/>
+  	<result column="f_openDate" property="openDate"/>
+  	<result column="f_cid" property="cid"/>
+  	<association property="category" javaType="Category">
+  		<id column="f_cateid" property="cateid"/>
+  		<result column="f_catename" property="catename"/>
+  	</association>
+  </resultMap>
+  <select id="getTotalRows" resultType="Integer">
+  	select count(*) from m_movie
+  </select>
+  <select id="query" resultType="Movie">
+  	select f_mid mid,f_mname mname,f_director director,f_describe describe,f_openDate openDate,f_cid cid from m_movie where f_mid=#{id}
+  </select>
+  <update id="update" parameterType="Movie">
+  	update m_movie set f_mname=#{mname},f_director=#{director},f_describe=#{describe},f_openDate=#{openDate},f_cid=#{cid} where f_mid=#{mid}
+  </update>
+  <select id="getCategorys" resultType="Category">
+  	select f_cateid cateid,f_catename catename from m_category
+  </select>
+</mapper>

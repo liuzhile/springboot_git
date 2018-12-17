@@ -1,0 +1,19 @@
+server:
+  port: 5050
+  context-path: /git
+  jsp-servlet:
+    init-parameters:
+      development: true
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: hr
+    password: hr
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+mybatis:
+  type-aliases-package: com.baizhi.lzl.entity

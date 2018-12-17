@@ -9,6 +9,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 public class SpringbootGitApplication {
 
     public static void main(String[] args) {
+        System.out.println("this is liu ");
         SpringApplication.run(SpringbootGitApplication.class, args);
     }
 
